@@ -94,8 +94,6 @@ class ViewAssetsModel extends ChangeNotifier {
       assets.add(Asset(id: temp[0], name: temp[1]));
       print("finally!!!");
     }
-    //String theName = assets[0].name.toString();
-    //print(theName);
     isLoading = false;
     notifyListeners();
   }
