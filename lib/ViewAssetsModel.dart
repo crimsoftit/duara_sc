@@ -23,7 +23,6 @@ class ViewAssetsModel extends ChangeNotifier {
   late ContractFunction _assetCount;
   late ContractFunction _assets;
   late ContractFunction _createAsset;
-  late ContractFunction _getAssetByCode;
 
   late ContractEvent _assetCreatedEvent;
 
@@ -35,12 +34,14 @@ class ViewAssetsModel extends ChangeNotifier {
   late Credentials _credentials;
 
   final String _privateKey =
-      "a9cbf49fe5d1faef8307d9a0ef5143baedca1bfddf475cb4f1ba2caf9b0118d9";
+      "88594543a3827bf86cb2653bfb4b0811cccef022f6221677e68c95e8fc4cc951";
 
-  final String _rpcUrl = "http://192.168.43.125:7545";
-  final String _wsUrl = "ws://192.168.43.125:7545/";
+  final String _rpcUrl = "http://192.168.43.226:7545";
+  final String _wsUrl = "ws://192.168.43.226:7545/";
   // final String _rpcUrl = "http://127.0.0.1:7545";
   // final String _wsUrl = "ws://127.0.0.1:7545/";
+  // final String _rpcUrl = "http://192.168.42.231:7545";
+  // final String _wsUrl = "ws://192.168.42.231:7545/";
 
   Future<void> initiateSetup() async {
     _client = Web3Client(_rpcUrl, Client(), socketConnector: () {
@@ -72,8 +73,8 @@ class ViewAssetsModel extends ChangeNotifier {
         ContractAbi.fromJson(_abiCode, "AssetManager"), _contractAddress);
 
     _assetCount = _contract.function("assetCount");
+    _assets = _contract.function("assets");
     _createAsset = _contract.function("createAsset");
-    _assets = _contract.function("demAssets");
     print("done with getDeployedContract() function");
     getAssets();
   }
@@ -88,17 +89,39 @@ class ViewAssetsModel extends ChangeNotifier {
     for (var i = 0; i < totalAssets.toInt(); i++) {
       var temp = await _client.call(
           contract: _contract, function: _assets, params: [BigInt.from(i)]);
-      print(temp[0]);
-      String temp0 = new String.fromCharCodes(temp[0]);
-      print(temp0);
-      assets.add(Asset(id: temp[0], name: temp[1]));
-      print("finally!!!");
+      //print(temp[0]);
+      String assetCode = new String.fromCharCodes(temp[0]);
+      print(assetCode);
+      assets.add(Asset(assetCode: assetCode, assetName: temp[1]));
+      //print("assets list populated successfully");
     }
+    print(assets[0].assetCode + " " + assets[0].assetName);
     isLoading = false;
     notifyListeners();
   }
 
-  Future<void> addAsset(String id, String name) async {
+  Future<void> getAsset() async {
+    List totalAssetsList = await _client
+        .call(contract: _contract, function: _assetCount, params: []);
+    BigInt totalAssets = totalAssetsList[0];
+    assetCount = totalAssets.toInt();
+    print(totalAssets);
+    assets.clear();
+    for (var i = 0; i < totalAssets.toInt(); i++) {
+      var temp = await _client.call(
+          contract: _contract, function: _assets, params: [BigInt.from(i)]);
+      //print(temp[0]);
+      String assetCode = new String.fromCharCodes(temp[0]);
+      print(assetCode);
+      assets.add(Asset(assetCode: assetCode, assetName: temp[1]));
+      //print("assets list populated successfully");
+    }
+    print(assets[0].assetCode + " " + assets[0].assetName);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  addAsset(String assetCodeData, String assetNameData) async {
     isLoading = true;
     notifyListeners();
     await _client.sendTransaction(
@@ -106,14 +129,14 @@ class ViewAssetsModel extends ChangeNotifier {
         Transaction.callContract(
             contract: _contract,
             function: _createAsset,
-            parameters: [id, name]));
-    msg = "asset created";
+            parameters: [assetCodeData, assetNameData]));
+    getAssets();
   }
 }
 
 class Asset {
-  Asset({required this.id, required this.name});
+  Asset({required this.assetCode, required this.assetName});
 
-  String id;
-  String name;
+  String assetCode;
+  String assetName;
 }

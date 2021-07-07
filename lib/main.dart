@@ -109,7 +109,7 @@ class MyHomePage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateAssetPage(),
+                              builder: (context) => CreateAsset(),
                             ));
                       },
                       child: new Container(
@@ -162,7 +162,7 @@ class MyHomePage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateAssetPage(),
+                              builder: (context) => CreateAsset(),
                             ));
                       },
                       child: new Container(

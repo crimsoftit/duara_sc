@@ -30,8 +30,8 @@ class ViewAssets extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) =>
                           ListTile(
                         title: Row(children: <Widget>[
-                          new Expanded(child: new Text("asset name")),
-                          new Expanded(child: new Text("Bar Code")),
+                          new Expanded(child: new Text("Asset code")),
+                          new Expanded(child: new Text("Asset name")),
                         ]),
                       ),
                     ),
@@ -44,9 +44,11 @@ class ViewAssets extends StatelessWidget {
                           ListTile(
                         title: Row(children: <Widget>[
                           new Expanded(
-                              child: new Text("listModel.assets[index].id")),
+                              child:
+                                  new Text(listModel.assets[index].assetCode)),
                           new Expanded(
-                              child: new Text(listModel.assets[index].name)),
+                              child:
+                                  new Text(listModel.assets[index].assetName)),
                         ]),
                         //Text(listModel.assets[index].assetName +
                         //listModel.assets[index].qrCodeString),

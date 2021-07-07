@@ -1547,17 +1547,9 @@
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
-  "networks": {
-    "5777": {
-      "events": {},
-      "links": {},
-      "address": "0x03914458eB26dFE7B095592A734F6ca2Dd975cF5",
-      "transactionHash": "0xf9c6e961fa21119f31d851e199346db2f3bb18e9499bc367f679e5619c6a8e47"
-    }
-  },
+  "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-27T22:59:10.961Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-07-06T23:36:52.252Z",
   "devdoc": {
     "details": "The Ownable contract has an owner address, and provides basic authorization control functions, this simplifies the implementation of \"user permissions\".",
     "methods": {

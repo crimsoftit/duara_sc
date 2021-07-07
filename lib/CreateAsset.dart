@@ -6,10 +6,10 @@ import 'stacked_icons.dart';
 import 'home.dart';
 import 'package:duara_sc/ViewAssetsModel.dart';
 
-class CreateAssetPage extends StatelessWidget {
+class CreateAsset extends StatelessWidget {
   String barcode = "Not Scanned";
-  TextEditingController name = new TextEditingController();
   TextEditingController bCodeValue = new TextEditingController();
+  TextEditingController name = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class CreateAssetPage extends StatelessWidget {
                   //context,
                   //MaterialPageRoute(
                   //builder: (context) => HomePage()));
-                  scanBarcode();
+                  //scanBarcode();
                 },
                 child: new Container(
                     alignment: Alignment.center,
@@ -162,15 +162,15 @@ class CreateAssetPage extends StatelessWidget {
     );
   }
 
-  Future<void> scanBarcode() async {
-    try {
-      FlutterBarcodeScanner.scanBarcode("#2A99CF", "Cancel", true, ScanMode.QR)
-          .then((value) {
-        barcode = value;
-        bCodeValue..text = barcode;
-      });
-    } catch (e) {
-      barcode = "ERROR! unable to read the barcode!!";
-    }
-  }
+  // Future<void> scanBarcode() async {
+  //   try {
+  //     FlutterBarcodeScanner.scanBarcode("#2A99CF", "Cancel", true, ScanMode.QR)
+  //         .then((value) {
+  //       barcode = value;
+  //       bCodeValue..text = barcode;
+  //     });
+  //   } catch (e) {
+  //     barcode = "ERROR! unable to read the barcode!!";
+  //   }
+  // }
 }
