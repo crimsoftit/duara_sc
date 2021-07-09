@@ -65,7 +65,7 @@ class CreateAsset extends StatelessWidget {
                   //context,
                   //MaterialPageRoute(
                   //builder: (context) => HomePage()));
-                  //scanBarcode();
+                  scanBarcode();
                 },
                 child: new Container(
                     alignment: Alignment.center,
@@ -162,15 +162,15 @@ class CreateAsset extends StatelessWidget {
     );
   }
 
-  // Future<void> scanBarcode() async {
-  //   try {
-  //     FlutterBarcodeScanner.scanBarcode("#2A99CF", "Cancel", true, ScanMode.QR)
-  //         .then((value) {
-  //       barcode = value;
-  //       bCodeValue..text = barcode;
-  //     });
-  //   } catch (e) {
-  //     barcode = "ERROR! unable to read the barcode!!";
-  //   }
-  // }
+  Future<void> scanBarcode() async {
+    try {
+      FlutterBarcodeScanner.scanBarcode("#2A99CF", "Cancel", true, ScanMode.QR)
+          .then((value) {
+        barcode = value;
+        bCodeValue..text = barcode;
+      });
+    } catch (e) {
+      barcode = "ERROR! unable to read the barcode!!";
+    }
+  }
 }

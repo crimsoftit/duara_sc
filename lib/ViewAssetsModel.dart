@@ -23,6 +23,8 @@ class ViewAssetsModel extends ChangeNotifier {
   late ContractFunction _assetCount;
   late ContractFunction _assets;
   late ContractFunction _createAsset;
+  late ContractFunction _getNameFromCode;
+  late ContractFunction _getAssetByCode;
 
   late ContractEvent _assetCreatedEvent;
 
@@ -74,6 +76,8 @@ class ViewAssetsModel extends ChangeNotifier {
 
     _assetCount = _contract.function("assetCount");
     _assets = _contract.function("assets");
+    //_getNameFromCode = _contract.function("getNameFromCode");
+    _getAssetByCode = _contract.function("getAssetByCode");
     _createAsset = _contract.function("createAsset");
     print("done with getDeployedContract() function");
     getAssets();

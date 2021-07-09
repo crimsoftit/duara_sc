@@ -11,7 +11,8 @@ contract AssetManager {
     }
 
     mapping(uint256 => Asset) public assets;
-    mapping(bytes => Asset) public demAssets;
+
+    mapping(bytes32 => string) getNameFromCode;
 
     event AssetCreated(string asset, uint256 assetNumber);
 
@@ -24,10 +25,15 @@ contract AssetManager {
     function createAsset(string memory _code, string memory _assetName) public {
         bytes32 code = stringToBytes32(_code);
         assets[assetCount++] = Asset(code, _assetName);
+        getNameFromCode[code] = _assetName;
 
         emit AssetCreated(_assetName, assetCount - 1);
     }
 
+    function getAssetByCode (string memory _assetCode) public view returns (string memory) {
+        bytes32 theCode = stringToBytes32(_assetCode);
+        return getNameFromCode[theCode];
+    }
    
     function stringToBytes32(string memory source) public pure returns (bytes32 result) {
         bytes memory tempEmptyStringTest = bytes(source);
