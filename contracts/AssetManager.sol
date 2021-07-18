@@ -3,37 +3,38 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract AssetManager {
     uint256 public assetCount;
-    bytes32 public assetCode;
+    string public theCode;
+    string public theName;
 
     struct Asset {
-        bytes32 code; //unique id (barcode)
+        string code; //unique id (barcode)
         string assetName;
     }
 
     mapping(uint256 => Asset) public assets;
 
-    mapping(bytes32 => string) getNameFromCode;
+    mapping(string => string) public getNameFromCode;
 
     event AssetCreated(string asset, uint256 assetNumber);
 
     constructor() public {
-        assetCode = stringToBytes32("vini_code");
-        assets[0] = Asset(assetCode, "test");
+        theCode = "vini_code";
+        theName = "vini";
+        assets[0] = Asset(theCode, theName);        
+        //getNameFromCode["vini_code"] = "test";
         assetCount = 1;
     }
 
     function createAsset(string memory _code, string memory _assetName) public {
-        bytes32 code = stringToBytes32(_code);
-        assets[assetCount++] = Asset(code, _assetName);
-        getNameFromCode[code] = _assetName;
+        assets[assetCount++] = Asset(_code, _assetName);
+        getNameFromCode[_code] = _assetName;
 
         emit AssetCreated(_assetName, assetCount - 1);
     }
 
-    function getAssetByCode (string memory _assetCode) public view returns (string memory) {
-        bytes32 theCode = stringToBytes32(_assetCode);
-        return getNameFromCode[theCode];
-    }
+    // function getAssetByCode (string memory _assetCode) public view returns (string memory) {
+    //     return getNameFromCode[_assetCode];
+    // }
    
     function stringToBytes32(string memory source) public pure returns (bytes32 result) {
         bytes memory tempEmptyStringTest = bytes(source);
