@@ -106,7 +106,7 @@ class ViewAssetsModel extends ChangeNotifier {
     //getAssetByCode("liz_code");
   }
 
-  getAssetByCode(String value) {
+  checkIfAssetExists(String value) {
     data = assets.where((row) => (row.assetCode == value));
     print(data.length);
     if (data.length >= 1) {

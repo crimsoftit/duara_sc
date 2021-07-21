@@ -52,7 +52,7 @@ class TrackAsset extends StatelessWidget {
                               .then((value) {
                             barcode = value;
                             bCodeValue..text = barcode;
-                            if (listModel.getAssetByCode(barcode) == true) {
+                            if (listModel.checkIfAssetExists(barcode) == true) {
                               trackMessage = "asset exists";
                             } else {
                               trackMessage = "ERROR: ASSET DOES NOT EXIST";

@@ -11,6 +11,8 @@ class CreateAsset extends StatelessWidget {
   TextEditingController bCodeValue = new TextEditingController();
   TextEditingController name = new TextEditingController();
 
+  late String trackMessage;
+
   @override
   Widget build(BuildContext context) {
     var listModel = Provider.of<ViewAssetsModel>(context);
@@ -21,21 +23,23 @@ class CreateAsset extends StatelessWidget {
       appBar: new AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
-          iconTheme: new IconThemeData(color: Color(0xFF18D191))),
+          iconTheme: new IconThemeData(color: Color(0xFFA2C0B6))),
       body: Container(
         width: double.infinity,
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new StakedIcons(),
             new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
                   child: new Text(
-                    "Duara",
-                    style: new TextStyle(fontSize: 20.0),
+                    "Asset Registration",
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Color(0xFFD17E18)),
                   ),
                 )
               ],
@@ -95,12 +99,19 @@ class CreateAsset extends StatelessWidget {
                         //MaterialPageRoute(
                         //builder: (context) => HomePage()));
 
-                        listModel.addAsset(bCodeValue.text, name.text);
+                        if (listModel.checkIfAssetExists(bCodeValue.text) ==
+                            true) {
+                          trackMessage = "ERROR! ASSET ALREADY REGISTERED";
+                        } else {
+                          trackMessage = "asset created";
+                          listModel.addAsset(bCodeValue.text, name.text);
+                        }
+
                         showDialog(
                           context: context,
                           builder: (context) => new AlertDialog(
                             title: new Text('Message'),
-                            content: Text("asset created"),
+                            content: Text(trackMessage),
                             actions: <Widget>[
                               Center(
                                 child: new FlatButton(
