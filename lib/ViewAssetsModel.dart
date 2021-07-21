@@ -30,7 +30,6 @@ class ViewAssetsModel extends ChangeNotifier {
   late ContractFunction _assetCount;
   late ContractFunction _assets;
   late ContractFunction _createAsset;
-  late ContractFunction _getNameFromCode;
   late ContractEvent _assetCreatedEvent;
 
   late Web3Client _client;
@@ -41,7 +40,7 @@ class ViewAssetsModel extends ChangeNotifier {
   late Credentials _credentials;
 
   final String _privateKey =
-      "f6fb55a254616225d233e3ed3baf345b8437f08294cce5967e32d10081b15f5a";
+      "9d1305594ddbadf7e3c951a5c7d65541e989fe683e8855f9dfd403e191480f2e";
 
   //final String _rpcUrl = "http://192.168.43.227:7545";
   //final String _wsUrl = "ws://192.168.43.227:7545/";
@@ -80,7 +79,6 @@ class ViewAssetsModel extends ChangeNotifier {
   Future<void> getDeployedContract() async {
     _contract = DeployedContract(
         ContractAbi.fromJson(_abiCode, "AssetManager"), _contractAddress);
-    _getNameFromCode = _contract.function("getNameFromCode");
     _assetCount = _contract.function("assetCount");
     _assets = _contract.function("assets");
     _createAsset = _contract.function("createAsset");
@@ -101,20 +99,22 @@ class ViewAssetsModel extends ChangeNotifier {
           contract: _contract, function: _assets, params: [BigInt.from(i)]);
       assets.add(Asset(assetCode: temp[0], assetName: temp[1]));
     }
-    //print(assets[0].assetCode + " " + assets[0].assetName);
+    print(assets[0].assetCode + " " + assets[0].assetName);
     //print(assets);
     isLoading = false;
     notifyListeners();
-    getAssetByCode("man_code");
+    //getAssetByCode("liz_code");
   }
 
   getAssetByCode(String value) {
-    data = assets.where((row) => (row.assetCode.contains(value)));
+    data = assets.where((row) => (row.assetCode == value));
     print(data.length);
     if (data.length >= 1) {
       print("true");
+      return true;
     } else {
       print("false");
+      return false;
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:duara_sc/ViewAssetsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'CreateAsset.dart';
+import 'TrackAsset.dart';
 
 void main() => runApp(DuaraSC());
 
@@ -114,13 +115,13 @@ class MyHomePage extends StatelessWidget {
                       },
                       child: new Container(
                           alignment: Alignment.center,
-                          height: 60.0,
+                          height: 40.0,
                           decoration: new BoxDecoration(
                               color: Color(0xFF18D191),
                               borderRadius: new BorderRadius.circular(9.0)),
                           child: new Text("Create Asset",
                               style: new TextStyle(
-                                  fontSize: 20.0, color: Colors.white))),
+                                  fontSize: 16.0, color: Colors.white))),
                     ),
                   ),
                 )
@@ -143,13 +144,13 @@ class MyHomePage extends StatelessWidget {
                       },
                       child: new Container(
                           alignment: Alignment.center,
-                          height: 60.0,
+                          height: 40.0,
                           decoration: new BoxDecoration(
                               color: Color(0xFF4364A1),
                               borderRadius: new BorderRadius.circular(9.0)),
                           child: new Text("View Assets",
                               style: new TextStyle(
-                                  fontSize: 20.0, color: Colors.white))),
+                                  fontSize: 16.0, color: Colors.white))),
                     ),
                   ),
                 ),
@@ -162,18 +163,18 @@ class MyHomePage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateAsset(),
+                              builder: (context) => TrackAsset(),
                             ));
                       },
                       child: new Container(
                           alignment: Alignment.center,
-                          height: 60.0,
+                          height: 40.0,
                           decoration: new BoxDecoration(
                               color: Color(0xFFDF513B),
                               borderRadius: new BorderRadius.circular(9.0)),
                           child: new Text("Track Asset",
                               style: new TextStyle(
-                                  fontSize: 20.0, color: Colors.white))),
+                                  fontSize: 16.0, color: Colors.white))),
                     ),
                   ),
                 ),

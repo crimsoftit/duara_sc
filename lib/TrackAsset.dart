@@ -1,86 +1,115 @@
 import 'package:duara_sc/ViewAssetsModel.dart';
+import 'package:duara_sc/stacked_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
 
 class TrackAsset extends StatelessWidget {
+  String barcode = "Not Scanned";
+  TextEditingController bCodeValue = new TextEditingController();
+  late String trackMessage;
+
   @override
   Widget build(BuildContext context) {
     var listModel = Provider.of<ViewAssetsModel>(context);
-    final title = 'Registered Assets';
-    //final items = List<String>.generate(100, (i) => "Item $i");
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.orange, //or set color with: Color(0xFF0000FF)
+    ));
+    return new Scaffold(
+      appBar: new AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          iconTheme: new IconThemeData(color: Color(0xFF18D191))),
+      body: Container(
+        width: double.infinity,
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            new StakedIcons(),
+            new SizedBox(
+              height: 5.0,
+            ),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        //Navigator.push(
+                        //context,
+                        //MaterialPageRoute(
+                        //builder: (context) => HomePage()));
+                        //scanBarcode();
 
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
+                        try {
+                          FlutterBarcodeScanner.scanBarcode(
+                                  "#2A99CF", "Cancel", true, ScanMode.QR)
+                              .then((value) {
+                            barcode = value;
+                            bCodeValue..text = barcode;
+                            if (listModel.getAssetByCode(barcode) == true) {
+                              trackMessage = "asset exists";
+                            } else {
+                              trackMessage = "ERROR: ASSET DOES NOT EXIST";
+                            }
+                            showDialog(
+                              context: context,
+                              builder: (context) => new AlertDialog(
+                                title: new Text('Message'),
+                                content: Text(trackMessage),
+                                actions: <Widget>[
+                                  Center(
+                                    child: new FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop(); // dismisses only the dialog and returns nothing
+                                      },
+                                      child: new Text('OK'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                        } catch (e) {
+                          barcode = "ERROR! unable to read the barcode!!";
+                        }
+                      },
+                      child: new Container(
+                          alignment: Alignment.center,
+                          height: 40.0,
+                          decoration: new BoxDecoration(
+                              color: Color(0xFF18D191),
+                              borderRadius: new BorderRadius.circular(9.0)),
+                          child: new Text("Scan Barcode",
+                              style: new TextStyle(
+                                  fontSize: 16.0, color: Colors.white))),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        body: listModel.isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 5.0, top: 10.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          //Navigator.push(
-                          //context,
-                          //MaterialPageRoute(
-                          //builder: (context) => HomePage()));
-                          //listModel.addAsset(name.text, bCodeValue.text);
-                        },
-                        child: new Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            decoration: new BoxDecoration(
-                                color: Color(0xFF18D191),
-                                borderRadius: new BorderRadius.circular(9.0)),
-                            child: new Text("Save",
-                                style: new TextStyle(
-                                    fontSize: 20.0, color: Colors.white))),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: ListView.builder(
-                      itemCount: 1,
-                      itemBuilder: (BuildContext context, int index) =>
-                          ListTile(
-                        title: Row(children: <Widget>[
-                          new Expanded(child: new Text("asset name")),
-                          new Expanded(child: new Text("Bar Code")),
-                        ]),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: ListView.builder(
-                      itemCount: 1,
-                      itemBuilder: (BuildContext context, int index) =>
-                          ListTile(
-                        title: Row(children: <Widget>[
-                          new Expanded(
-                              child: new Text(
-                                  "listModel.assets[index].assetName")),
-                          new Expanded(
-                              child: new Text(
-                                  "listModel.assets[index].qrCodeString")),
-                        ]),
-                        //Text(listModel.assets[index].assetName +
-                        //listModel.assets[index].qrCodeString),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
       ),
     );
   }
+
+  // scanBarcode() async {
+  //   try {
+  //     FlutterBarcodeScanner.scanBarcode("#2A99CF", "Cancel", true, ScanMode.QR)
+  //         .then((value) {
+  //       barcode = value;
+  //       bCodeValue..text = barcode;
+  //     });
+  //   } catch (e) {
+  //     barcode = "ERROR! unable to read the barcode!!";
+  //   }
+  // }
 }

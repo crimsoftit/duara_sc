@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract AssetManager {
+import "contracts/Ownable.sol";
+import "contracts/DateLib.sol";
+
+contract AssetManager is Ownable {
     uint256 public assetCount;
     string public theCode;
     string public theName;
@@ -25,9 +28,9 @@ contract AssetManager {
         assetCount = 1;
     }
 
-    function createAsset(string memory _code, string memory _assetName) public {
+    function createAsset(string memory _code, string memory _assetName) onlyOwner public {
         assets[assetCount++] = Asset(_code, _assetName);
-        getNameFromCode[_code] = _assetName;
+        //getNameFromCode[_code] = _assetName;
 
         emit AssetCreated(_assetName, assetCount - 1);
     }
